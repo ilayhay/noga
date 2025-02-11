@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
+[Index(nameof(Name), IsUnique = true)]
 public class Customer
 {
     [Key]
@@ -22,6 +21,6 @@ public class Customer
     [Required]
     public DateTime Created { get; set; }
 
-    public virtual ICollection<Address> Addresses { get; set; }
-    public virtual ICollection<Contact> Contacts { get; set; }
+    public ICollection<Address>? Addresses { get; set; }
+    public ICollection<Contact>? Contacts { get; set; }
 }

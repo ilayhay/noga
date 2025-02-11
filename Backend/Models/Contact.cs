@@ -18,5 +18,5 @@ public class Contact
     [ForeignKey("Customer")]
     public int CustomerId { get; set; }
 
-    public virtual Customer Customer { get; set; }
+    public Customer Customer { get; set; }
 }
