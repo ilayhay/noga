@@ -1,0 +1,35 @@
+node_modules/
+dist/
+temp/
+tmp/
+.env
+.DS_Store
+
+# ---- Backend (.NET) ----
+Backend/bin/
+Backend/obj/
+Backend/*.user
+Backend/*.suo
+Backend/.vs/
+Backend/.vscode/
+Backend/.idea/
+Backend/appsettings.*.json
+Backend/coverage/
+Backend/TestResults/
+Backend/Migrations/
+
+# ---- Frontend (Angular) ----
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.angular/
+Frontend/.vscode/
+Frontend/.idea/
+Frontend/coverage/
+Frontend/npm-debug.log
+Frontend/yarn.lock
+Frontend/package-lock.json
+
+# ---- OS-specific ----
+Thumbs.db
+ehthumbs.db
+Desktop.ini
