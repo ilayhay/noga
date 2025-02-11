@@ -1,0 +1,21 @@
+<div *ngIf="data" class="customer-card" dir="rtl">
+    <h2>{{ data.name }}</h2>
+    <p><strong>מספר לקוח:</strong> {{ data.customerNumber }}</p>
+    <p><strong>נוצר בתאריך:</strong> {{ data.created | date:'dd/MM/yyyy HH:mm' }}</p>
+  
+    <h3>כתובות</h3>
+    <ul>
+      <li *ngFor="let address of data.addresses">
+        {{ address.street }}, {{ address.city }}
+      </li>
+    </ul>
+  
+    <h3>אנשי קשר</h3>
+    <ul>
+      <li *ngFor="let contact of data.contacts">
+        <p><strong>שם:</strong> {{ contact.fullName }}</p>
+        <p><strong>מספר משרד:</strong> {{ contact.officeNumber }}</p>
+        <p><strong>אימייל:</strong> {{ contact.email }}</p>
+      </li>
+    </ul>
+  </div>

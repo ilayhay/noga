@@ -1,0 +1,120 @@
+<h2 mat-dialog-title>{{ editMode ? 'עריכת לקוח' : 'לקוח חדש' }}</h2>
+
+    <mat-dialog-content>
+      <form [formGroup]="customerForm">
+        <div class="customer-details">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>שם לקוח</mat-label>
+            <input matInput formControlName="name" required>
+            <mat-error *ngIf="customerForm.get('name')?.errors?.['required']">
+              שם לקוח הוא שדה חובה
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>מספר לקוח</mat-label>
+            <input matInput formControlName="customerNumber" required>
+            <mat-error *ngIf="customerForm.get('customerNumber')?.errors?.['required']">
+              מספר לקוח הוא שדה חובה
+            </mat-error>
+            <mat-error *ngIf="customerForm.get('customerNumber')?.errors?.['pattern']">
+              מספר לקוח חייב להכיל 9 ספרות
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              כתובות
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ addresses.length }} כתובות
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div formArrayName="addresses" class="addresses-container">
+            <div *ngFor="let address of addresses.controls; let i=index" [formGroupName]="i" class="address-item">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>עיר</mat-label>
+                <input matInput formControlName="city" required>
+                <mat-error *ngIf="address.get('city')?.errors?.['required']">
+                  עיר היא שדה חובה
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>רחוב</mat-label>
+                <input matInput formControlName="street" required>
+                <mat-error *ngIf="address.get('street')?.errors?.['required']">
+                  רחוב הוא שדה חובה
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-icon-button color="warn" (click)="removeAddress(i)" class="remove-button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+            <button mat-stroked-button color="primary" (click)="addAddress()" class="add-button">
+              <mat-icon>add</mat-icon> הוסף כתובת
+            </button>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              אנשי קשר
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ contacts.length }} אנשי קשר
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div formArrayName="contacts" class="contacts-container">
+            <div *ngFor="let contact of contacts.controls; let i=index" [formGroupName]="i" class="contact-item">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>שם מלא</mat-label>
+                <input matInput formControlName="fullName" required>
+                <mat-error *ngIf="contact.get('fullName')?.errors?.['required']">
+                  שם מלא הוא שדה חובה
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>טלפון משרד</mat-label>
+                <input matInput formControlName="officeNumber">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>דוא"ל</mat-label>
+                <input matInput formControlName="email" type="email">
+                <mat-error *ngIf="contact.get('email')?.errors?.['email']">
+                  כתובת דוא"ל לא תקינה
+                </mat-error>
+              </mat-form-field>
+
+              <button mat-icon-button color="warn" (click)="removeContact(i)" class="remove-button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+
+            <button mat-stroked-button color="primary" (click)="addContact()" class="add-button">
+              <mat-icon>add</mat-icon> הוסף איש קשר
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="close()">ביטול</button>
+      <button mat-raised-button color="primary" 
+              (click)="onSubmit()" 
+              [disabled]="customerForm.invalid || isSubmitting">
+        {{ isSubmitting ? 'שומר...' : 'שמור' }}
+      </button>
+    </mat-dialog-actions>

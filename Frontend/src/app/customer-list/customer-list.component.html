@@ -1,0 +1,36 @@
+
+<div class="customers-container">
+    <h1>רשימת לקוחות</h1>
+    
+    <table class="customers-table">
+      <thead>
+        <tr>
+          <th>שם לקוח</th>
+          <th>מספר לקוח</th>
+          <th>תאריך יצירה</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers">
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.customerNumber }}</td>
+            <td>{{ customer.created | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="actions-column">
+                <button (click)="viewCustomer(customer.id)" class="action-button view">צפה</button>
+                <button (click)="editCustomer(customer.id)" class="action-button edit">ערוך</button>
+                <button (click)="deleteCustomer(customer.id)" class="action-button delete">מחק</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="customers === null" class="loading-state">
+      טוען נתונים...
+    </div>
+
+    <div *ngIf="customers?.length === 0" class="empty-state">
+      לא נמצאו לקוחות במערכת
+    </div>
+  </div>
+  <button mat-flat-button (click)="addCustomer()" >הוסף לקוח חדש</button>
