@@ -4,7 +4,7 @@ import { CustomerListComponent } from './customer-list/customer-list.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterLink,RouterOutlet,CustomerListComponent],
+  imports: [RouterLink,RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

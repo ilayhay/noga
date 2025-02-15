@@ -30,12 +30,15 @@ public class CustomerService : ICustomerService
         return newCustomer;
     }
 
-    public async Task UpdateAsync(int id, Customer customer)
+    public async Task UpdateAsync(int id, CustomerUpdateRequest customer)
     {
-        var updatedCustomer = await _dbApi.GetByIdAsync(id);
-        if (customer is null)
-            throw new InvalidOperationException("Cannot update a non-existent customer.");
-        await _dbApi.UpdateAsync(customer);
+        var existingCustomer = await _dbApi.GetByNameAsync(customer.Name);
+        var currentCustomer = await _dbApi.GetByIdAsync(id);
+        if (existingCustomer != null && currentCustomer.Name != existingCustomer.Name)
+        {
+            throw new InvalidOperationException($"customer with the name '{customer.Name}' already exists.");
+        }
+        await _dbApi.UpdateAsync(id,customer);
     }
 
     public async Task DeleteAsync(int id)
@@ -43,7 +46,6 @@ public class CustomerService : ICustomerService
         var customer = await GetByIdAsync(id);
         if (customer is null)
             throw new InvalidOperationException("Cannot update a non-existent customer.");
-        customer.IsDeleted = true;
-        await _dbApi.UpdateAsync(customer);
+        await _dbApi.DeleteAsync(customer);
     }
 }

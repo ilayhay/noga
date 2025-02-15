@@ -25,11 +25,11 @@
       </tbody>
     </table>
 
-    <div *ngIf="customers === null" class="loading-state">
+    <div *ngIf="isLoading" class="loading-state">
       טוען נתונים...
     </div>
 
-    <div *ngIf="customers?.length === 0" class="empty-state">
+    <div *ngIf="customers?.length === 0 && !isLoading" class="empty-state">
       לא נמצאו לקוחות במערכת
     </div>
   </div>

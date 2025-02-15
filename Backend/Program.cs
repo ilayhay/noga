@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 
+using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
@@ -14,11 +16,14 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DevConn")));
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 builder.Services.AddScoped<ICustomerDbApi, CustomerDbApi>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -33,6 +38,26 @@ app.UseCors("Policy");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
+        var exception = exceptionFeature?.Error;
+        
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+        
+        var problem = new 
+        {
+            Status = context.Response.StatusCode,
+            Title = "An error occurred",
+            Detail = exception?.Message
+        };
+        
+        await context.Response.WriteAsJsonAsync(problem);
+    });
+});
 app.Run();
 
 

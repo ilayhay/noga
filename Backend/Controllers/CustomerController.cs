@@ -33,9 +33,9 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<IActionResult> UpdateCustomer(int id, Customer newCustomer)
+    public async Task<IActionResult> UpdateCustomer(int id, CustomerUpdateRequest customer)
     {
-        await _service.UpdateAsync(id, newCustomer);
+        await _service.UpdateAsync(id, customer);
         return Ok();
     }
 

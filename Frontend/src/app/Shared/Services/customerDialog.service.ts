@@ -8,13 +8,14 @@ import { MatDialog } from "@angular/material/dialog";
   providedIn: 'root'
 })
 export class CustomerDialogService {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog ) { }
 
   openEditDialog(customer?: Customer) {
     return this.dialog.open(CustomerFormComponent, {
       data: { customer },
       width: '600px',
-      disableClose: true
+      disableClose: true,
+      direction: 'rtl'
     }).afterClosed();
   }
 }

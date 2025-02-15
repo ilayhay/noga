@@ -28,18 +28,26 @@
 
   .address-item,
   .contact-item {
-    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
     padding: 1rem;
     background: #f8f9fa;
     border-radius: 4px;
+    flex-wrap: wrap;
   }
-
+  
+  .address-item mat-form-field,
+  .contact-item mat-form-field {
+    flex: 1;
+  }
+  
   .remove-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    position: relative;
+    margin-left: auto; 
+    flex-shrink: 0;
   }
-
   .add-button {
     margin-top: 1rem;
   }
